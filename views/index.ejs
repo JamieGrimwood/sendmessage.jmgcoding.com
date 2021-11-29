@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="/index.css" />
+</head>
+<html>
+  <body>
+    <h2>Send a message to my alexa...</h2>
+
+    <p>
+      Now I am gonna be honest. I am scared about this lol. I have no clue what
+      you crazy people will send me but lets just give it a go. Please put your
+      name at the end of the message so I can reply to it later on.
+    </p>
+
+    <p>
+      I just want to point out that sending me any cuss words or anything rude
+      will just not go through to my alexa, so please don't try.
+    </p>
+
+    <%if(error === "nomessage"){%>
+    <div class="isa_error">
+      <i class="fa fa-times-circle"></i>
+      You didn't actually put a message to send me...
+    </div>
+    <br />
+    <% } else if (error === "nosender") { %>
+    <div class="isa_error">
+      <i class="fa fa-times-circle"></i>
+      How am I gonna know who sent the message if you don't tell me? Just put your name in the sender box you silly billy.
+    </div>
+    <% } else if (error === "swear") { %>
+    <div class="isa_error">
+      <i class="fa fa-times-circle"></i>
+      What did I tell you about no cussing 🤦
+    </div>
+    <% } else if (error === "success") { %>
+    <div class="isa_success">
+      <i class="fa fa-check"></i>
+      Welp. My alexa has recieved your (hopefully) lovely message and I will
+      listen to it soon.
+    </div>
+    <%} else {%> <%}%>
+    <form method="POST" action="/">
+      <label for="message">Message:</label><br />
+      <input type="text" id="message" name="message" /><br />
+      <label for="sender">Sender:</label><br />
+      <input type="text" id="sender" name="sender" /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
