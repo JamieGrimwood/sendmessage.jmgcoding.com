@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const axios = require("axios");
 const chalk = require("chalk");
 const fs = require("fs");
+const rateLimit = require("express-rate-limit");
 const config = require("./config.json");
 
 app.set("views", path.join(__dirname, "views"));
@@ -16,6 +17,11 @@ app.use(
     extended: true,
   })
 );
+
+const apiLimiter = rateLimit({
+  windowMs: 500, // 1 request per 500ms
+  max: 1
+});
 
 let date_ob = new Date();
 let date = ("0" + date_ob.getDate()).slice(-2);
@@ -38,7 +44,7 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.post("/", async (req, res) => {
+app.post("/", apiLimiter, async (req, res) => {
   if (!req.body.message) {
     return res.render("index", {
       error: "nomessage",
