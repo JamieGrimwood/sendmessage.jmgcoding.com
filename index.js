@@ -80,21 +80,35 @@ app.post("/", apiLimiter, async (req, res) => {
 
   const content = "\n" + dateLog + " Message from: " + req.body.sender.toString() + ": " + req.body.message.toString();
 
-  var messageFile = fs.createWriteStream("messages.txt", {
+  var messageFile = fs.createWriteStream("./public/messages.txt", {
     flags: "a", // 'a' means appending (old data will be preserved)
   });
 
   messageFile.write(content);
-  axios.post(`https://api.notifymyecho.com/v1/NotifyMe`, null, {
+  await axios.post(`https://api.notifymyecho.com/v1/NotifyMe`, null, {
     params: {
       notification: `You have recieved a message from ${req.body.sender.toString()}! ${req.body.message.toString()}`,
       accessCode: config.accessToken,
       title: "string", // optional parameter
     },
-  });
-
-  res.render("index", {
-    error: "success",
+  }).then(function (response) {
+    if (response.data.sent) {
+      res.render("index", {
+        error: "success",
+      });
+    }
+  }).catch(function (error) {
+    if (error.response) {
+      if (error.response.data.error.toString() === "Too many requests") {
+        res.render("index", {
+          error: "toomanyrequests",
+        });
+      } else {
+        res.render("index", {
+          error: "unknown",
+        });
+      }
+    }
   });
 });
 

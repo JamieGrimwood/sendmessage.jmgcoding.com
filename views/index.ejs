@@ -1,45 +1,65 @@
 <!DOCTYPE html>
+
 <head>
   <link rel="stylesheet" href="/index.css" />
 </head>
 <html>
-  <body>
-    <h2>Send a message to my alexa...</h2>
 
-    <p>
-      Now I am gonna be honest. I am scared about this lol. I have no clue what
-      you crazy people will send me but lets just give it a go. Please put your
-      name at the end of the message so I can reply to it later on.
-    </p>
+<body>
+  <h2>Send a message to my alexa...</h2>
 
-    <p>
-      I just want to point out that sending me any cuss words or anything rude
-      will just not go through to my alexa, so please don't try.
-    </p>
+  <p>
+    Now I am gonna be honest. I am scared about this lol. I have no clue what
+    you crazy people will send me but lets just give it a go. Please put your
+    name at the end of the message so I can reply to it later on.
+  </p>
 
-    <%if(error === "nomessage"){%>
-    <div class="isa_error">
-      <i class="fa fa-times-circle"></i>
-      You didn't actually put a message to send me...
-    </div>
-    <br />
-    <% } else if (error === "nosender") { %>
-    <div class="isa_error">
-      <i class="fa fa-times-circle"></i>
-      How am I gonna know who sent the message if you don't tell me? Just put your name in the sender box you silly billy.
-    </div>
-    <% } else if (error === "swear") { %>
-    <div class="isa_error">
-      <i class="fa fa-times-circle"></i>
-      What did I tell you about no cussing 🤦
-    </div>
-    <% } else if (error === "success") { %>
-    <div class="isa_success">
-      <i class="fa fa-check"></i>
-      Welp. My alexa has recieved your (hopefully) lovely message and I will
-      listen to it soon.
-    </div>
-    <%} else {%> <%}%>
+  <p>
+    I just want to point out that sending me any cuss words or anything rude
+    will just not go through to my alexa, so please don't try.
+  </p>
+
+  <p>
+    Amazon also has a 5 requests per minute thing, which means I may not recieve every message you send me. I am working
+    on a fix for this now though.
+  </p>
+
+  <%if(error === "nomessage"){%>
+  <div class="isa_error">
+    <i class="fa fa-times-circle"></i>
+    You didn't actually put a message to send me...
+  </div>
+  <br />
+  <% } else if (error === "nosender") { %>
+  <div class="isa_error">
+    <i class="fa fa-times-circle"></i>
+    How am I gonna know who sent the message if you don't tell me? Just put your name in the sender box you silly billy.
+  </div>
+  <% } else if (error === "swear") { %>
+  <div class="isa_error">
+    <i class="fa fa-times-circle"></i>
+    What did I tell you about no cussing 🤦
+  </div>
+  <% } else if (error === "unknown") { %>
+  <div class="isa_error">
+    <i class="fa fa-times-circle"></i>
+    Welp... This is awkward. An error has occured that I didn't think to put an error message for. Message me this has
+    happened and ill fix it.
+  </div>
+  <% } else if (error === "toomanyrequests") { %>
+  <div class="isa_error">
+    <i class="fa fa-times-circle"></i>
+    So um... Amazon only allowes me to send 5 requests to my alexa every 5 minutes so wait a bit and try again.
+
+    (To put this in simple terms, mr suckerburg (amazon ceo man) only lets me send 5 messages to my alexa every 5 mins. blame him.)
+  </div>
+  <% } else if (error === "success") { %>
+  <div class="isa_success">
+    <i class="fa fa-check"></i>
+    Welp. My alexa has recieved your (hopefully) lovely message and I will
+    listen to it soon.
+  </div>
+  <%} else {%> <%}%>
     <form method="POST" action="/">
       <label for="message">Message:</label><br />
       <input type="text" id="message" name="message" /><br />
