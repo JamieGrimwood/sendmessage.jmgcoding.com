@@ -23,17 +23,23 @@ const apiLimiter = rateLimit({
   max: 1
 });
 
-let date_ob = new Date();
-let date = ("0" + date_ob.getDate()).slice(-2);
-let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-let year = date_ob.getFullYear();
-let hours = date_ob.getHours();
-let minutes = date_ob.getMinutes();
-let seconds = date_ob.getSeconds();
+async function getDate() {
+	const date_ob = new Date();
+	const date = ('0' + date_ob.getDate()).slice(-2);
+	const month = ('0' + (date_ob.getMonth() + 1)).slice(-2);
+	const year = date_ob.getFullYear();
+	const hours = date_ob.getHours();
+	const minutes = date_ob.getMinutes();
+	const seconds = date_ob.getSeconds();
 
-const dateLog = `[${year}-${month}-${date} ${hours}:${minutes}:${seconds}]`;
+	const dateLog = `[${year}-${month}-${date} ${hours}:${minutes}:${seconds}]`;
+
+	return dateLog;
+}
+
 
 app.use(function (req, res, next) {
+  const dateLog = getDate()
   console.log(chalk.blue(`[WEBSITE] ${dateLog} ${req.method} ${req.url}`));
   next();
 });
@@ -77,6 +83,8 @@ app.post("/", apiLimiter, async (req, res) => {
       error: "swear",
     });
   }
+  
+  const dateLog = getDate()
 
   const content = "\n" + dateLog + " Message from: " + req.body.sender.toString() + ": " + req.body.message.toString();
 
