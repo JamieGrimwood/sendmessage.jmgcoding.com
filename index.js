@@ -38,8 +38,8 @@ async function getDate() {
 }
 
 
-app.use(function (req, res, next) {
-  const dateLog = getDate()
+app.use(async function (req, res, next) {
+  const dateLog = await getDate()
   console.log(chalk.blue(`[WEBSITE] ${dateLog} ${req.method} ${req.url}`));
   next();
 });
@@ -84,7 +84,7 @@ app.post("/", apiLimiter, async (req, res) => {
     });
   }
   
-  const dateLog = getDate()
+  const dateLog = await getDate()
 
   const content = "\n" + dateLog + " Message from: " + req.body.sender.toString() + ": " + req.body.message.toString();
 
